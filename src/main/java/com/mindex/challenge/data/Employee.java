@@ -1,5 +1,6 @@
 package com.mindex.challenge.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Employee {
@@ -10,9 +11,22 @@ public class Employee {
     private String department;
     private List<Employee> directReports;
 
-    public Employee() {
+    //Adding parameters to Employee constructor for simpler instantiation
+    public Employee(
+        String employeeId, 
+        String firstName, 
+        String lastName, 
+        String position, 
+        String department
+    ) {
+        this.employeeId = employeeId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.position = position;
+        this.department = department;
+        this.directReports = new ArrayList<>();
     }
-
+ 
     public String getEmployeeId() {
         return employeeId;
     }
