@@ -7,11 +7,13 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.mindex.challenge.data.Employee;
 import com.mindex.challenge.data.ReportingStructure;
+import com.mindex.challenge.service.EmployeeService;
 
 /**
  * Will place all of my unit tests for the challenge application in this class.
@@ -23,34 +25,41 @@ import com.mindex.challenge.data.ReportingStructure;
 public class ChallengeApplicationTests {
 
 	private Employee[] testEmployees;
+	private final EmployeeService mockEmployeeService = Mockito.mock(EmployeeService.class);
 
 	@Before
 	public void initialize() {
 		testEmployees = new Employee[] {
-			new Employee("0", "A", "Smith", "Entry", "Dev"),
-			new Employee("1", "B", "Jane", "Intermediate", "Dev"),
-			new Employee("2", "C", "Simpson", "Entry", "QA"),
-			new Employee("3", "D", "Atreides", "Senior", "QA"),
-			new Employee("4", "E", "Holmes", "Senior", "Management")
+			new Employee("A", "A", "Smith", "Entry", "Dev"),
+			new Employee("B", "B", "Jane", "Intermediate", "Dev"),
+			new Employee("C", "C", "Simpson", "Entry", "QA"),
+			new Employee("D", "D", "Atreides", "Senior", "QA"),
+			new Employee("E", "E", "Holmes", "Senior", "Management")
 		};
+
+		Mockito.when(mockEmployeeService.read("A")).thenReturn(testEmployees[0]);
+		Mockito.when(mockEmployeeService.read("B")).thenReturn(testEmployees[1]);
+		Mockito.when(mockEmployeeService.read("C")).thenReturn(testEmployees[2]);
+		Mockito.when(mockEmployeeService.read("D")).thenReturn(testEmployees[3]);
+		Mockito.when(mockEmployeeService.read("E")).thenReturn(testEmployees[4]);
+		
 
 		// A directly reports to B
 		List<Employee> listB = new ArrayList<>();
-		listB.add(testEmployees[0]);
+		listB.add(new Employee("A"));
 		testEmployees[1].setDirectReports(listB);
 
 		// B and C directly report to D
 		List<Employee> listD = new ArrayList<>();
-		listD.add(testEmployees[1]);
-		listD.add(testEmployees[2]);
+		listD.add(new Employee("B"));
+		listD.add(new Employee("C"));
 		testEmployees[3].setDirectReports(listD);
 
 		// B and D directly report to E
 		List<Employee> listE = new ArrayList<>();
-		listE.add(testEmployees[1]);
-		listE.add(testEmployees[3]);
+		listE.add(new Employee("B"));
+		listE.add(new Employee("D"));
 		testEmployees[4].setDirectReports(listE);
-		
 		// Visual of Employee Graph
         //            E
         //          /   \
@@ -67,7 +76,7 @@ public class ChallengeApplicationTests {
 	@Test
 	public void testReportingStructureTopLevel() {
 		Employee topEmployee = testEmployees[4]; //E
-		ReportingStructure reportingStructure = new ReportingStructure(topEmployee);
+		ReportingStructure reportingStructure = new ReportingStructure(mockEmployeeService, topEmployee);
 		
 		assertEquals(4, reportingStructure.getNumberOfReports());
 	}
@@ -75,7 +84,7 @@ public class ChallengeApplicationTests {
 	@Test
 	public void testReportingStructureMidLevel() {
 		Employee midEmployee = testEmployees[3]; //D
-		ReportingStructure reportingStructure = new ReportingStructure(midEmployee);
+		ReportingStructure reportingStructure = new ReportingStructure(mockEmployeeService, midEmployee);
 		
 		assertEquals(3, reportingStructure.getNumberOfReports());
 	}
@@ -83,7 +92,7 @@ public class ChallengeApplicationTests {
 	@Test
 	public void testReportingStructureLowLevel() {
 		Employee lowEmployee = testEmployees[2]; //C
-		ReportingStructure reportingStructure = new ReportingStructure(lowEmployee);
+		ReportingStructure reportingStructure = new ReportingStructure(mockEmployeeService, lowEmployee);
 		
 		assertEquals(0, reportingStructure.getNumberOfReports());
 	}
@@ -96,7 +105,7 @@ public class ChallengeApplicationTests {
 		testEmployees[0].setDirectReports(listA);
 		
 		Employee loopEmployee = testEmployees[4];
-		ReportingStructure reportingStructure = new ReportingStructure(loopEmployee);
+		ReportingStructure reportingStructure = new ReportingStructure(mockEmployeeService, loopEmployee);
 
 		assertEquals(4, reportingStructure.getNumberOfReports());
 	}

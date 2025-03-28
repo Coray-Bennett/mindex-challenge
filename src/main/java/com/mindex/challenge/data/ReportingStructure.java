@@ -3,6 +3,8 @@ package com.mindex.challenge.data;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.mindex.challenge.service.EmployeeService;
+
 /**
  * Determines the number of direct and indirect reports of a given employee upon instantiation. 
  * 
@@ -14,14 +16,21 @@ import java.util.Set;
  *  vvv Since each employee must be counted once, cycles would simply be ignored if reached. This is acceptable logic,
  *  since it will never prevent legitimate reports from being counted.
  * 
- * Each employee must only be counted for a report once, even if they connect to multiple other reports in the tree. 
+ * Each employee must only be counted for a report once, even if they connect to multiple other reports in the tree.
+ * 
+ * Big realization hit -- traversal is based solely on employee ID looking at employee database, need to fetch each
+ *  direct report from the repository
  */
 public class ReportingStructure {
     private final Employee employee;
     private final int numberOfReports;
 
-    public ReportingStructure(Employee employee) {
+    private final EmployeeService employeeService;
+
+    // Dependency Injection for `employeeService`
+    public ReportingStructure(EmployeeService employeeService, Employee employee) {
         this.employee = employee;
+        this.employeeService = employeeService;
         this.numberOfReports = this.calculateNumberOfReports();
     }
 
@@ -47,15 +56,29 @@ public class ReportingStructure {
      * @param visited Set containing employees that have already been counted as a report.
      * @return The number of reports of `employee`, ignoring `visited` employees in the tree.
      */
-    private int calculateNumberOfReports(Employee employee, Set<Employee> visited) {
+    private int calculateNumberOfReports(Employee employee, Set<String> visited) {
         int reportsCount = 0;
-        visited.add(employee);
+        visited.add(employee.getEmployeeId());
+
+        if(employee.getDirectReports() == null) {
+            return 0;
+        }
 
         for(Employee report : employee.getDirectReports()) {
-            if(!visited.contains(report)) {
-                visited.add(report);
+            String id = report.getEmployeeId();
+            if(!visited.contains(id)) {
+                visited.add(id);
                 reportsCount++; // add the direct report to the count
-                reportsCount += this.calculateNumberOfReports(report, visited); // recursively add indirect reports
+
+                //fetch full employee data from employee service
+                Employee fullReportee;
+                try {
+                    fullReportee = this.employeeService.read(id);
+                } catch (RuntimeException e) {
+                    continue;
+                }
+                
+                reportsCount += this.calculateNumberOfReports(fullReportee, visited); // recursively add indirect reports
             }
         }
 

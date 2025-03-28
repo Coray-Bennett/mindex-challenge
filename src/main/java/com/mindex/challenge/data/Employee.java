@@ -13,9 +13,12 @@ public class Employee {
 
     public Employee() {}
 
-    /**
-     * Added parameters to Employee constructor for simpler instantiation
-     */
+    /* Constructor for Employee with just ID for sparse representation */
+    public Employee(String employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    /* Added parameters to Employee constructor for simpler instantiation */
     public Employee(
         String employeeId, 
         String firstName, 

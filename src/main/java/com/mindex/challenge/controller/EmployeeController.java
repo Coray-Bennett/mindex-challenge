@@ -50,7 +50,7 @@ public class EmployeeController {
     public ResponseEntity<?> reportingStructure(@PathVariable String id) {
         try {
             Employee employee = employeeService.read(id);
-            ReportingStructure reportingStructure = new ReportingStructure(employee);
+            ReportingStructure reportingStructure = new ReportingStructure(employeeService, employee);
             return new ResponseEntity<>(reportingStructure, HttpStatus.OK);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
