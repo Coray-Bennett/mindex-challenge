@@ -54,6 +54,7 @@ public class EmployeeController {
      */
     @GetMapping("/employee/reports/{id}")
     public ResponseEntity<?> reportingStructure(@PathVariable String id) {
+        LOG.debug("Received request for employee reporting structure for id[{}]", id);
         try {
             Employee employee = employeeService.read(id);
             ReportingStructure reportingStructure = new ReportingStructure(employeeService, employee);
