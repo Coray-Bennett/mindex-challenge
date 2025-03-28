@@ -11,7 +11,9 @@ public class Employee {
     private String department;
     private List<Employee> directReports;
 
-    //Adding parameters to Employee constructor for simpler instantiation
+    /**
+     * Added parameters to Employee constructor for simpler instantiation
+     */
     public Employee(
         String employeeId, 
         String firstName, 
