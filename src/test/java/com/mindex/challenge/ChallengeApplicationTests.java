@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -138,6 +139,7 @@ public class ChallengeApplicationTests {
 	}
 
 	/* Compensation Tests */
+
 	@Test
 	public void testCompensationServiceRead() {
 		Compensation compensation = compensationService.read("A");
@@ -145,6 +147,15 @@ public class ChallengeApplicationTests {
 		assertNotNull(compensation);
 		assertEquals("A", compensation.getEmployeeId());
 		assertCompensationEquivalence(testCompensations[0], compensation);
+	}
+
+	@Test
+	public void testCompensationServiceReadNull() {
+		Exception exception = assertThrows(RuntimeException.class, () ->  {
+			compensationService.read("C");
+		});
+
+		assertEquals("Could not find compensation for employeeId: C", exception.getMessage());
 	}
 
 	private void assertCompensationEquivalence(Compensation expected, Compensation actual) {

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.mindex.challenge.DataBootstrapTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-03-28T13:22:14.035Z" hostname="corays-mbp.wireless.rit.edu" time="0.047">
-  <properties/>
-  <testcase name="test" classname="com.mindex.challenge.DataBootstrapTest" time="0.047"/>
-  <system-out><![CDATA[?[2m2025-03-28T09:22:14.032-04:00?[0;39m ?[32m INFO?[0;39m ?[35m16562?[0;39m ?[2m---?[0;39m ?[2m[    Test worker]?[0;39m ?[2m?[0;39m?[36mt.c.s.AnnotationConfigContextLoaderUtils?[0;39m ?[2m:?[0;39m Could not detect default configuration classes for test class [com.mindex.challenge.DataBootstrapTest]: DataBootstrapTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-?[2m2025-03-28T09:22:14.033-04:00?[0;39m ?[32m INFO?[0;39m ?[35m16562?[0;39m ?[2m---?[0;39m ?[2m[    Test worker]?[0;39m ?[2m?[0;39m?[36m.b.t.c.SpringBootTestContextBootstrapper?[0;39m ?[2m:?[0;39m Found @SpringBootConfiguration com.mindex.challenge.ChallengeApplication for test class com.mindex.challenge.DataBootstrapTest
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

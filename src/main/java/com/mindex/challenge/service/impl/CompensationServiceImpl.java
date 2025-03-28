@@ -26,8 +26,13 @@ public class CompensationServiceImpl implements CompensationService {
 
     @Override
     public Compensation read(String employeeId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'read'");
+        Compensation compensation = compensationRepository.findByEmployeeId(employeeId);
+
+        if(compensation == null) {
+            throw new RuntimeException("Could not find compensation for employeeId: " + employeeId);
+        }
+
+        return compensation;
     }
     
 }
