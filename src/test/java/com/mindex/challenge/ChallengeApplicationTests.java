@@ -11,9 +11,12 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.mindex.challenge.dao.CompensationRepository;
 import com.mindex.challenge.data.Employee;
 import com.mindex.challenge.data.ReportingStructure;
+import com.mindex.challenge.service.CompensationService;
 import com.mindex.challenge.service.EmployeeService;
+import com.mindex.challenge.service.impl.CompensationServiceImpl;
 
 /**
  * Will place all of my unit tests for the challenge application in this class.
@@ -26,6 +29,9 @@ public class ChallengeApplicationTests {
 
 	private Employee[] testEmployees;
 	private final EmployeeService mockEmployeeService = Mockito.mock(EmployeeService.class);
+
+	private final CompensationRepository mockCompensationRepository = Mockito.mock(CompensationRepository.class);
+	private final CompensationService compensationService = new CompensationServiceImpl(mockCompensationRepository);
 
 	@Before
 	public void initialize() {
@@ -66,6 +72,12 @@ public class ChallengeApplicationTests {
         //  	   B --> D
         //        /       \
         //       A		   C
+
+
+		/* Compensation Test Setup */
+
+		
+		Mockito.when(mockCompensationRepository.findByEmployeeId("A")).thenReturn(null);
 	}
 
 	@Test
@@ -111,5 +123,9 @@ public class ChallengeApplicationTests {
 	}
 
 	/* Compensation Tests */
-	
+	@Test
+	public void testCompensationServiceRead() {
+
+	}
+
 }

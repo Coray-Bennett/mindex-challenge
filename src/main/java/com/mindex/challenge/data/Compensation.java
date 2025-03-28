@@ -23,4 +23,43 @@ public class Compensation {
     private Date effectiveDate;
 
     public Compensation() {}
+
+    public Compensation(String compensationId, String employeeId, double salary, Date effectiveDate) {
+        this.compensationId = compensationId;
+        this.employeeId = employeeId;
+        this.salary = salary;
+        this.effectiveDate = effectiveDate;
+    }
+
+    public String getCompensationId() {
+        return compensationId;
+    }
+
+    public void setCompensationId(String compensationId) {
+        this.compensationId = compensationId;
+    }
+
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
 }
