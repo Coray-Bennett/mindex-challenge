@@ -56,6 +56,8 @@ public class ChallengeApplicationTests {
 	@Test
 	public void contextLoads() {}
 
+	/* ReportingStructure Tests */
+	
 	@Test
 	public void testReportingStructureTopLevel() {
 		Employee topEmployee = testEmployees[4];
@@ -63,5 +65,23 @@ public class ChallengeApplicationTests {
 		
 		assertNotNull(reportingStructure);
 		assertEquals(5, reportingStructure.getNumberOfReports());
+	}
+
+	@Test
+	public void testReportingStructureMidLevel() {
+		Employee midEmployee = testEmployees[3];
+		ReportingStructure reportingStructure = new ReportingStructure(midEmployee);
+		
+		assertNotNull(reportingStructure);
+		assertEquals(3, reportingStructure.getNumberOfReports());
+	}
+
+	@Test
+	public void testReportingStructureLowLevel() {
+		Employee lowEmployee = testEmployees[2];
+		ReportingStructure reportingStructure = new ReportingStructure(lowEmployee);
+		
+		assertNotNull(reportingStructure);
+		assertEquals(0, reportingStructure.getNumberOfReports());
 	}
 }
