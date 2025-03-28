@@ -28,11 +28,11 @@ public class ChallengeApplicationTests {
 	@Before
 	public void initialize() {
 		testEmployees = new Employee[] {
-			new Employee("1", "A", "Smith", "Entry", "Dev"),
-			new Employee("2", "B", "Jane", "Intermediate", "Dev"),
-			new Employee("3", "C", "Simpson", "Entry", "QA"),
-			new Employee("4", "D", "Atreides", "Senior", "QA"),
-			new Employee("5", "E", "Holmes", "Senior", "Management")
+			new Employee("0", "A", "Smith", "Entry", "Dev"),
+			new Employee("1", "B", "Jane", "Intermediate", "Dev"),
+			new Employee("2", "C", "Simpson", "Entry", "QA"),
+			new Employee("3", "D", "Atreides", "Senior", "QA"),
+			new Employee("4", "E", "Holmes", "Senior", "Management")
 		};
 
 		// A directly reports to B
@@ -49,27 +49,34 @@ public class ChallengeApplicationTests {
 		// B and D directly report to E
 		List<Employee> listE = new ArrayList<>();
 		listE.add(testEmployees[1]);
-		listD.add(testEmployees[3]);
+		listE.add(testEmployees[3]);
 		testEmployees[4].setDirectReports(listE);
+		
+		// Visual of Employee Graph
+        //            E
+        //          /   \
+        //  	   B --> D
+        //        /       \
+        //       A		   C
 	}
 
 	@Test
 	public void contextLoads() {}
 
 	/* ReportingStructure Tests */
-	
+
 	@Test
 	public void testReportingStructureTopLevel() {
-		Employee topEmployee = testEmployees[4];
+		Employee topEmployee = testEmployees[4]; //E
 		ReportingStructure reportingStructure = new ReportingStructure(topEmployee);
 		
 		assertNotNull(reportingStructure);
-		assertEquals(5, reportingStructure.getNumberOfReports());
+		assertEquals(4, reportingStructure.getNumberOfReports());
 	}
 
 	@Test
 	public void testReportingStructureMidLevel() {
-		Employee midEmployee = testEmployees[3];
+		Employee midEmployee = testEmployees[3]; //D
 		ReportingStructure reportingStructure = new ReportingStructure(midEmployee);
 		
 		assertNotNull(reportingStructure);
@@ -78,7 +85,7 @@ public class ChallengeApplicationTests {
 
 	@Test
 	public void testReportingStructureLowLevel() {
-		Employee lowEmployee = testEmployees[2];
+		Employee lowEmployee = testEmployees[2]; //C
 		ReportingStructure reportingStructure = new ReportingStructure(lowEmployee);
 		
 		assertNotNull(reportingStructure);
