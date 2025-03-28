@@ -48,9 +48,19 @@ public class CompensationController {
         }
 
         try {
-            employeeService.read(compensation.getEmployeeId());
+            employeeService.read(compensation.getEmployeeId()); // validate employee ID
         } catch (RuntimeException e) {
             return new ResponseEntity<>("No employee with id: " + compensation + " found", HttpStatus.NOT_FOUND);
+        }
+
+        try {
+            compensationService.read(compensation.getEmployeeId()); // enforce uniqueness
+            return new ResponseEntity<>(
+                "Compensation for employee with ID " + compensation.getEmployeeId() + " already exists",
+                HttpStatus.CONFLICT
+            );
+        } catch (RuntimeException e) {
+            // ONLY continue if compensation does not exist for given employeeId
         }
 
         try {
