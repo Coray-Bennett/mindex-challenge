@@ -109,4 +109,7 @@ public class ChallengeApplicationTests {
 
 		assertEquals(4, reportingStructure.getNumberOfReports());
 	}
+
+	/* Compensation Tests */
+	
 }
