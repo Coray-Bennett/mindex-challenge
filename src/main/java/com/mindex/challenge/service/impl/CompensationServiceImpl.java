@@ -1,5 +1,7 @@
 package com.mindex.challenge.service.impl;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +22,10 @@ public class CompensationServiceImpl implements CompensationService {
 
     @Override
     public Compensation create(Compensation compensation) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        compensation.setCompensationId(UUID.randomUUID().toString());
+        compensationRepository.insert(compensation);
+
+        return compensation;
     }
 
     @Override

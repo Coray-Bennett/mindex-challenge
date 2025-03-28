@@ -158,6 +158,17 @@ public class ChallengeApplicationTests {
 		assertEquals("Could not find compensation for employeeId: C", exception.getMessage());
 	}
 
+	@Test
+	public void testCompensationServiceCreate() {
+		Compensation compensation = testCompensations[1];
+		Compensation createdCompensation = compensationService.create(compensation);
+
+		assertNotNull(createdCompensation);
+		assertEquals(compensation.getEmployeeId(), createdCompensation.getEmployeeId());
+		assertEquals(compensation.getEffectiveDate(), createdCompensation.getEffectiveDate());
+		assertEquals(compensation.getSalary(), createdCompensation.getSalary());
+	}
+
 	private void assertCompensationEquivalence(Compensation expected, Compensation actual) {
 		assertEquals(expected.getCompensationId(), actual.getCompensationId());
 		assertEquals(expected.getEmployeeId(), actual.getEmployeeId());
