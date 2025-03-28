@@ -2,6 +2,8 @@ package com.mindex.challenge.service.impl;
 
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,8 @@ import com.mindex.challenge.service.CompensationService;
 
 @Service
 public class CompensationServiceImpl implements CompensationService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
     @Autowired
     private CompensationRepository compensationRepository;
@@ -22,6 +26,7 @@ public class CompensationServiceImpl implements CompensationService {
 
     @Override
     public Compensation create(Compensation compensation) {
+        LOG.debug("Creating compenssation [{}]", compensation);
         compensation.setCompensationId(UUID.randomUUID().toString());
         compensationRepository.insert(compensation);
 
@@ -30,6 +35,7 @@ public class CompensationServiceImpl implements CompensationService {
 
     @Override
     public Compensation read(String employeeId) {
+        LOG.debug("Reading compensation for employeeId [{}]", employeeId);
         Compensation compensation = compensationRepository.findByEmployeeId(employeeId);
 
         if(compensation == null) {

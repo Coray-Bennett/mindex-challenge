@@ -22,7 +22,9 @@ public class CompensationController {
 
     @GetMapping("/compensation/{employeeId}")
     public ResponseEntity<?> read(@PathVariable String employeeId) {
-        if (employeeService.read(employeeId) == null) {
+        try {
+            employeeService.read(employeeId);
+        } catch (Exception e) {
             return new ResponseEntity<>("No employee with id: " + employeeId + " found", HttpStatus.NOT_FOUND);
         }
 
