@@ -1,7 +1,6 @@
 package com.mindex.challenge.data;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -11,6 +10,9 @@ import java.util.Set;
  *  and C directly reports to B, is it possible for C to also directly report to A?
  *  Personally, I think yes, it's technically possible. However, it probably ISN'T possible
  *  for A to ALSO report to B or C. In other words, no cycles. Will have to account for that.
+ * 
+ *  vvv Since each employee must be counted once, cycles would simply be ignored if reached. This is acceptable logic,
+ *  since it will never prevent legitimate reports from being counted.
  * 
  * Each employee must only be counted for a report once, even if they connect to multiple other reports in the tree. 
  */
@@ -47,8 +49,9 @@ public class ReportingStructure {
      */
     private int calculateNumberOfReports(Employee employee, Set<Employee> visited) {
         int reportsCount = 0;
-        List<Employee> directReports = employee.getDirectReports();
-        for(Employee report : directReports) {
+        visited.add(employee);
+
+        for(Employee report : employee.getDirectReports()) {
             if(!visited.contains(report)) {
                 visited.add(report);
                 reportsCount++; // add the direct report to the count

@@ -3,7 +3,6 @@ package com.mindex.challenge;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -70,7 +69,6 @@ public class ChallengeApplicationTests {
 		Employee topEmployee = testEmployees[4]; //E
 		ReportingStructure reportingStructure = new ReportingStructure(topEmployee);
 		
-		assertNotNull(reportingStructure);
 		assertEquals(4, reportingStructure.getNumberOfReports());
 	}
 
@@ -79,7 +77,6 @@ public class ChallengeApplicationTests {
 		Employee midEmployee = testEmployees[3]; //D
 		ReportingStructure reportingStructure = new ReportingStructure(midEmployee);
 		
-		assertNotNull(reportingStructure);
 		assertEquals(3, reportingStructure.getNumberOfReports());
 	}
 
@@ -88,7 +85,19 @@ public class ChallengeApplicationTests {
 		Employee lowEmployee = testEmployees[2]; //C
 		ReportingStructure reportingStructure = new ReportingStructure(lowEmployee);
 		
-		assertNotNull(reportingStructure);
 		assertEquals(0, reportingStructure.getNumberOfReports());
+	}
+
+	@Test
+	public void testReportingStructureCycle() {
+		// Add E as a direct report of A, creates a cycle
+		List<Employee> listA = new ArrayList<>();
+		listA.add(testEmployees[4]);
+		testEmployees[0].setDirectReports(listA);
+		
+		Employee loopEmployee = testEmployees[4];
+		ReportingStructure reportingStructure = new ReportingStructure(loopEmployee);
+
+		assertEquals(4, reportingStructure.getNumberOfReports());
 	}
 }
