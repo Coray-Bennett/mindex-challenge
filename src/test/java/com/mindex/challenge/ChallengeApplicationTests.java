@@ -1,8 +1,12 @@
 package com.mindex.challenge;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.mindex.challenge.dao.CompensationRepository;
+import com.mindex.challenge.data.Compensation;
 import com.mindex.challenge.data.Employee;
 import com.mindex.challenge.data.ReportingStructure;
 import com.mindex.challenge.service.CompensationService;
@@ -30,6 +35,7 @@ public class ChallengeApplicationTests {
 	private Employee[] testEmployees;
 	private final EmployeeService mockEmployeeService = Mockito.mock(EmployeeService.class);
 
+	private Compensation[] testCompensations;
 	private final CompensationRepository mockCompensationRepository = Mockito.mock(CompensationRepository.class);
 	private final CompensationService compensationService = new CompensationServiceImpl(mockCompensationRepository);
 
@@ -76,8 +82,17 @@ public class ChallengeApplicationTests {
 
 		/* Compensation Test Setup */
 
-		
-		Mockito.when(mockCompensationRepository.findByEmployeeId("A")).thenReturn(null);
+		Date date = new GregorianCalendar(2025, Calendar.MARCH, 28).getTime();
+		Compensation compA = new Compensation("A", "A", 45000.00, date);
+		Compensation compB = new Compensation("B", "B", 55000.00, date);
+		Mockito.when(mockCompensationRepository.findByEmployeeId("A")).thenReturn(compA);
+		Mockito.when(mockCompensationRepository.findByEmployeeId("B")).thenReturn(compB);
+		Mockito.when(mockCompensationRepository.findByEmployeeId("C")).thenReturn(null);
+
+		testCompensations = new Compensation[] {
+			compA,
+			compB
+		};
 	}
 
 	@Test
@@ -125,7 +140,18 @@ public class ChallengeApplicationTests {
 	/* Compensation Tests */
 	@Test
 	public void testCompensationServiceRead() {
+		Compensation compensation = compensationService.read("A");
 
+		assertNotNull(compensation);
+		assertEquals("A", compensation.getEmployeeId());
+		assertCompensationEquivalence(testCompensations[0], compensation);
 	}
+
+	private void assertCompensationEquivalence(Compensation expected, Compensation actual) {
+		assertEquals(expected.getCompensationId(), actual.getCompensationId());
+		assertEquals(expected.getEmployeeId(), actual.getEmployeeId());
+		assertEquals(expected.getEffectiveDate(), actual.getEffectiveDate());
+		assertEquals(expected.getSalary(), actual.getSalary());
+	} 
 
 }
