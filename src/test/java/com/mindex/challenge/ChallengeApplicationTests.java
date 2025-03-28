@@ -58,7 +58,7 @@ public class ChallengeApplicationTests {
 
 	@Test
 	public void testReportingStructureTopLevel() {
-		Employee topEmployee = testEmployees[5];
+		Employee topEmployee = testEmployees[4];
 		ReportingStructure reportingStructure = new ReportingStructure(topEmployee);
 		
 		assertNotNull(reportingStructure);
