@@ -17,7 +17,7 @@ public class CompensationServiceImpl implements CompensationService {
     private static final Logger LOG = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
     @Autowired
-    private CompensationRepository compensationRepository;
+    private final CompensationRepository compensationRepository;
 
     //Constructor to inject CompensationRepository for mocking
     public CompensationServiceImpl(CompensationRepository compensationRepository) {

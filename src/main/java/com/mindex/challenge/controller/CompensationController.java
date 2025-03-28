@@ -13,6 +13,9 @@ import com.mindex.challenge.data.Compensation;
 import com.mindex.challenge.service.CompensationService;
 import com.mindex.challenge.service.EmployeeService;
 
+/* My biggest regret here is not having time to go through and test these methods.
+ * Let it be known that I would have if my schedule was not so tight today!
+ */
 @RestController
 public class CompensationController {
 
