@@ -45,7 +45,15 @@ public class EmployeeController {
         return employeeService.update(employee);
     }
 
-    //Include try/catch statement and ResponseEntity return value for error handling in case of invalid ID or server error
+    /** 
+     * 
+     * 
+     * @param String id : employeeId of the employee whose reportingStructure will be returned
+     * @returns ResponseEntity<?> containing the `ReportingStructure` if successful, or an HTTP error code. 
+     * 
+     * @note Hypothetically, in a production system this endpoint could be cached,
+     *   assuming your churn rate of employees is low enough that the values are usually the same.
+     */
     @GetMapping("/employee/reports/{id}")
     public ResponseEntity<?> reportingStructure(@PathVariable String id) {
         try {
@@ -55,7 +63,7 @@ public class EmployeeController {
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.internalServerError().body("Internal server error:" + e.getMessage());
         }
     }
 }
